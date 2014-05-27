@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamsoft Samples</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <link href="Styles/style.css" type="text/css" rel="stylesheet" />
+</head>
+<body >    
+    <div class="DWTPage body_Broad_width">
+        <div class="DWTHeader">
+            <!-- DWT_PageHead.js is used to initiate the head of the sample page. Not necessary!-->
+            <script src="Scripts/DWT_PageHead.js"></script>
+        </div>
+        <div class="DWTBody doc"  style="padding: 20px 40px 40px 40px" >
+            <h1>Dynamic Web TWAIN Local Demo Guide</h1>
+            <h2>1. Introduction</h2>
+            <p>Welcome to Dynamic Web TWAIN. Please first check 
+			out the samples (<em>basic</em> &amp; <em>advanced</em>) below to get familiar with Dynamic Web TWAIN and get 
+			an idea what it can do.</p>
+
+            <h2>2. Demo Samples</h2>
+            <ul><li><em>Basic samples</em>
+            <ul class="items">
+                <li><a href="DWTSample_BasicScan.htm" name="starthere" target="_blank">Scan documents</a></li>
+                <li><a href="DWTSample_CustomScan.htm" name="starthere"  target="_blank">Scan documents with settings</a></li>
+                <li><a href="DWTSample_ScanAndEdit.htm" name="starthere"  target="_blank">Scan and edit documents</a></li>
+                <li><a href="DWTSample_ScanAndSave.htm" name="starthere"  target="_blank">Scan and save documents</a></li>
+                <li><a href="DWTSample_ScanAndUpload.htm" name="starthere"  target="_blank">Scan and upload documents to a web server</a></li>
+                 <li><a href="DWTSample_ScanAndUploadWithFTP.htm" name="starthere"  target="_blank">Scan and upload documents to an FTP server</a></li>
+                <li><a href="DWTSample_Thumbnails.htm" name="starthere"  target="_blank">Scan documents with thumbnail navigation</a></li>
+            </ul></li>
+            <li><em>Advanced sample</em>
+            <ul class="items">
+                <li><a href="../Advanced/online_demo_scan.htm" name="starthere" target="_blank">Scan documents with advanced features</a></li>
+            </ul></li>
+            </ul>
+            
+
+        	<h2>3. Build your own scan webpage</h2>
+        	  <p>Only several simple steps to follow to build your own scan 
+			  solution :-), as you will find in chapter <em>Build the "Hello World" page</em> of <a href="../../../Documents/Dynamic Web TWAIN 9 Developer's Guide.pdf">Dynamic Web TWAIN Developer's Guide</a>. </p>
+        	<h2>4. How to extend your license</h2>
+            <p>If your trial license expires, you can contact us to get an extended license. With the extended license, you can generate a new product key and replace the old one in your application:</p>
+            <ul>
+                <li> Ask for a license extension: <a href='http://www.dynamsoft.com/Support/LiveHelp.aspx' target="_blank">Live Chat</a> or support@dynamsoft.com.</li>
+                <li> <a href="../../../Documents/Help/Programmer Guide/Guide How to use the license.htm" target="_blank">Generate a Product Key</a>.</li>
+                <li>Replace ProductKey in JavaScript. The code is typically like this:<br/>
+                    <div style="font-family: monospace; border-left: 1px solid #6CE26C; padding: 5px 0 5px 10px; margin: 5px 0 5px 0; ">
+                        <span style="color: #8100fc; ">var</span><span color: #000000;> _dwtParam</span><span style="color: #8100fc; "> = </span><span color: #000000;>{</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #be6700;">'productKey'</span><span color: #000000;>:</span><span style="color: #be6700;"> '******',</span><br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #be6700;">'containerID'</span><span color: #000000;>:</span><span style="color: #be6700;"> 'dwtcontrolContainer' </span>
+                    </div>
+                </li>
+            </ul>
+        </div>        
+        <div class="DWTTail">
+            <script src="Scripts/DWT_PageTail.js"></script>
+        </div>
+    </div>
+</body>
+</html>

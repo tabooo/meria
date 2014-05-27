@@ -1,0 +1,11 @@
+truncate table answers;
+truncate table documents;
+truncate table rewrites;
+/*truncate table citizens;
+truncate table roles;
+truncate table users;
+truncate table departments;
+truncate table posts;
+truncate table workers;
+truncate table company_types;
+truncate table vada;*/
