@@ -77,23 +77,7 @@ function searchdoc1(){
 		</span>
 		
 		</div>
-		
-		<!--<select class="input" name="author" id="author" type="text" placeholder="ავტორი" data-provide="typeahead" data-items="4" required onchange="changeaddress()">
-	   <option value="">აირჩიეთ ავტორი</option>
-			<?php
-			/*mysqlconnect();
-				$qu=mysql_query("select * from citizens");
-				 while($client=mysql_fetch_array($qu)){
-				 echo '<option value="'.$client['id'].',1">'.$client['name'].'-('.$client['address'].')</option>';
-				}
-				$qu2=mysql_query("select * from workers");
-				 while($worker=mysql_fetch_array($qu2)){
-					$workerpost=mysql_fetch_array(mysql_query("SELECT * FROM departments WHERE id in(SELECT dep_id FROM posts WHERE id='".$worker['post_id']."')"));
-					echo '<option value="'.$worker['id'].',2">'.$worker['name'].'-('.$workerpost['department'].')</option>';
-				 }*/
-			?>  
-			</select>-->
-			<input type="hidden" size="30" placeholder="ავტორი" id="authorid">
+		<input type="hidden" size="30" placeholder="ავტორი" id="authorid">
 		<input type="text" size="30" placeholder="ავტორი" id="author" onchange="showresultauthors(this.value)" style=" float:left; width:125px">
 		
 		<input type="hidden" size="30" placeholder="ადრესატი" id="addresseeid">

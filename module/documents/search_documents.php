@@ -11,49 +11,27 @@ if(@$_POST['dos']=='searchdoc'){
 	$frompage=($pagenumber-1)*20;
 	
 	$sql="";	
-	if(@$_POST['fromtimein']!="") $sql.=" AND date>=".safe($_POST['fromtimein']);
-	if(@$_POST['totimein']!="") $sql.=" AND date<=".safe($_POST['fromtimein']);
-	if(@$_POST['author']!="") $sql.=" AND author=".safe($_POST['author']);
-	if(@$_POST['regnumbersearch']!="") $sql.=" AND regnumber like '%".safe($_POST['regnumbersearch'])."%'";
-	if(@$_POST['doctype']!="") $sql.=" AND inner_outer='".safe($_POST['doctype'])."'";
-	$docs=mysql_query("SELECT * FROM documents WHERE user!=''$sql ORDER BY id DESC LIMIT $frompage,20") or die(mysql_error());
-	
-	$sul=mysql_num_rows(mysql_query("SELECT * FROM documents WHERE user!=''$sql"));	
+	if(@$_POST['fromtimein']!="") $sql.=" AND d.date>=".safe($_POST['fromtimein']);
+	if(@$_POST['totimein']!="") $sql.=" AND d.date<=".safe($_POST['fromtimein']);
+	if(@$_POST['author']!="") $sql.=" AND d.author=".safe($_POST['author']);
+	if(@$_POST['addressee']!="") $join.=" inner join rewrites r ON (d.id=r.did and r.addressee_id=".safe($_POST['addressee']).")";
+	if(@$_POST['regnumbersearch']!="") $sql.=" AND d.regnumber like '%".safe($_POST['regnumbersearch'])."%'";
+	if(@$_POST['doctype']!="") $sql.=" AND d.inner_outer='".safe($_POST['doctype'])."'";
+	$docs=mysql_query("SELECT * FROM documents d $join WHERE d.user!=''$sql ORDER BY d.id DESC LIMIT $frompage,20") or die(mysql_error());
+	$sul=mysql_num_rows(mysql_query("SELECT * FROM documents d $join WHERE user!=''$sql"));	
 	echo $sul."|||";
 	echo '<table class="table table-hover"><tr><th>#</th><th>თარიღი</th><th>ავტორი</th><th>ადრესატი</th></tr>';
-	$addressees=array();
-	if(@$_POST['addressee']!=""){
-		$adds=mysql_query("select did from rewrites where addressee_id=".safe($_POST['addressee']));
-		while($add=mysql_fetch_array($adds)){
-			$addressees[] = $add['did'];
-		}
-	}
-	
-	$docs2=mysql_query("SELECT * FROM documents WHERE user!=''$sql ORDER BY id DESC") or die(mysql_error());
-	$docsarr=array();
-	while($doc12=mysql_fetch_array($docs2)){
-		$docsarr[] = $doc12;
-	}
-	echo $docsarr[0]['date'];
-	echo count($addressees);
-	if(count($addressees)>0){
-		foreach($docsarr as $doc2){
-			echo $doc2['id']."///";
-			if(!in_array($doc2, $addressees)) unset($doc2);
-		}
-	}
-	//while($doc=mysql_fetch_array($docs)){
-	/*foreach ($docsarr as $doc){
-		//if(count($addressees)>0 && !in_array($doc['id'], $addressees)) continue;
+
+	while($doc=mysql_fetch_array($docs)){
 		$cid=$doc['author'];
 		
 		$authors='';
 		$author='';
-		$addresse=mysql_fetch_array(mysql_query("SELECT * FROM rewrites WHERE did='".$doc['id']."'"));		
+		$addresse=mysql_fetch_array(mysql_query("SELECT * FROM rewrites WHERE did='".$doc[0]."'"));		
 		$addr="";
 		if($doc['inner_outer']==1){
 			$authors=mysql_query("SELECT name FROM citizens WHERE id='$cid'") or die(mysql_error());
-			$author=mysql_fetch_array($authors);				
+			$author=mysql_fetch_array($authors);
 			$addr=mysql_fetch_array(mysql_query("SELECT * FROM workers WHERE id='".$addresse['addressee_id']."'"));
 		}
 		if($doc['inner_outer']==2){
@@ -70,16 +48,16 @@ if(@$_POST['dos']=='searchdoc'){
 				
 		$str1='';
 		$vada=mysql_fetch_array(mysql_query("SELECT * FROM vada WHERE id='".$doc['vada_id']."'"));
-		$answer=mysql_num_rows(mysql_query("SELECT * FROM documents WHERE answer_doc_id='".$doc['id']."'"));
+		$answer=mysql_num_rows(mysql_query("SELECT * FROM documents WHERE answer_doc_id='".$doc[0]."'"));
 		if((time()-$doc['date'])>($vada['vada']*24*3600)){
 		 $str1="class='error'";
 		}
 		if($answer>0){
 			$str1="class='success'";
 		}
-		echo "<tr ".$str1." ondblclick='editdocument(\"".$doc['id']."\")'><td>".$doc['regnumber']."</td><td>".date('m/d/Y',$doc['date'])."</td><td>".$author['name']."</td><td>".$addr['name']."</td></tr>";
+		echo "<tr ".$str1." ondblclick='editdocument(\"".$doc[0]."\")'><td>".$doc['regnumber']."</td><td>".date('m/d/Y',$doc['date'])."</td><td>".$author['name']."</td><td>".$addr['name']."</td></tr>";
 		$str1='';
-	}*/
+	}
 	echo '</table>';
 	
 	$pages=ceil($sul/20);
