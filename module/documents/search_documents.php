@@ -140,10 +140,10 @@ if(@$_POST['dos']=='searchfromnewdocument' && @$_POST['search']!=""){
 	if (strlen($q)>0)
 	{
 		mysqlconnect();
-		$docs=mysql_query("select * from documents where regnumber like '$q%' order by id asc limit 0,5") or die(mysql_error());
+		$docs=mysql_query("select * from documents where regnumber like '$q%' order by id asc limit 0,10") or die(mysql_error());
 		$hint="";
 		while($doc=mysql_fetch_array($docs)){
-				$hint.= "<a onclick='$(\"#answer_doc_id\").val(\"".$doc['regnumber']."\")'> ".$doc['regnumber']."</a><br>";
+				$hint.= "<a onclick='$(\"#answer_doc_id\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\")'> ".$doc['regnumber']."</a><br>";
 		}
 	}
 
@@ -170,15 +170,15 @@ if(@$_POST['dos']=='searchauthorsfromdocuments' && @$_POST['search']!=""){
 	{
 		mysqlconnect();
 		$hint="";
-		$docs=mysql_query("select * from citizens where name like '%$q%' order by id asc limit 0,5") or die(mysql_error());
+		$docs=mysql_query("select * from citizens where name like '%$q%' order by id asc limit 0,15") or die(mysql_error());
 		while($doc=mysql_fetch_array($docs)){
-			$hint.= "<a onclick='$(\"#author\").val(\"".$doc['name']."\");$(\"#authorid\").val(\"".$doc['id']."\");$(\"#livesearchauthor\").css(\"visibility\", \"hidden\");'> ".$doc['name']."-(".$doc['address'].")</a><br>";
+			$hint.= "<a onclick='$(\"#author\").val(\"".str_replace(array('"', "'"), '', $doc['name'])."\");$(\"#authorid\").val(\"".$doc['id']."\");$(\"#livesearchauthor\").css(\"visibility\", \"hidden\");'> ".$doc['name']."-(".$doc['address'].")</a><br>";
 		}
 		
-		$docs2=mysql_query("select * from workers where name like '%$q%' order by id asc limit 0,5") or die(mysql_error());
+		$docs2=mysql_query("select * from workers where name like '%$q%' order by id asc limit 0,15") or die(mysql_error());
 		while($doc1=mysql_fetch_array($docs2)){
 			$workerpost=mysql_fetch_array(mysql_query("SELECT * FROM departments WHERE id in(SELECT dep_id FROM posts WHERE id='".$doc1['post_id']."')"));
-			$hint.= "<a onclick='$(\"#author\").val(\"".$doc1['name']."\");$(\"#authorid\").val(\"".$doc1['id']."\");$(\"#livesearchauthor\").css(\"visibility\", \"hidden\");''> ".$doc1['name']."-(".$workerpost['department']."</a><br>";
+			$hint.= "<a onclick='$(\"#author\").val(\"".str_replace(array('"', "'"), '', $doc1['name'])."\");$(\"#authorid\").val(\"".$doc1['id']."\");$(\"#livesearchauthor\").css(\"visibility\", \"hidden\");''> ".$doc1['name']."-(".$workerpost['department']."</a><br>";
 		}
 	}
 
@@ -202,15 +202,15 @@ if(@$_POST['dos']=='searcaddresseefromdocuments' && @$_POST['search']!=""){
 	{
 		mysqlconnect();
 		$hint="";
-		$addressees=mysql_query("select * from citizens where name like '%$q%' and id in (select addressee_id from rewrites) order by id asc limit 0,5") or die(mysql_error());
+		$addressees=mysql_query("select * from citizens where name like '%$q%' and id in (select addressee_id from rewrites) order by id asc limit 0,15") or die(mysql_error());
 		while($add=mysql_fetch_array($addressees)){
-			$hint.= "<a onclick='$(\"#addressee\").val(\"".$add['name']."\");$(\"#addresseeid\").val(\"".$add['id']."\");$(\"#livesearchaddressee\").css(\"visibility\", \"hidden\");'> ".$add['name']."-(".$add['address'].")</a><br>";
+			$hint.= "<a onclick='$(\"#addressee\").val(\"".str_replace(array('"', "'"), '', $add['name'])."\");$(\"#addresseeid\").val(\"".$add['id']."\");$(\"#livesearchaddressee\").css(\"visibility\", \"hidden\");'> ".$add['name']."-(".$add['address'].")</a><br>";
 		}
 		
-		$addressees2=mysql_query("select * from workers where name like '%$q%' and id in (select addressee_id from rewrites) order by id asc limit 0,5") or die(mysql_error());
+		$addressees2=mysql_query("select * from workers where name like '%$q%' and id in (select addressee_id from rewrites) order by id asc limit 0,15") or die(mysql_error());
 		while($add2=mysql_fetch_array($addressees2)){
 			$workerpost=mysql_fetch_array(mysql_query("SELECT * FROM departments WHERE id in(SELECT dep_id FROM posts WHERE id='".$add2['post_id']."')"));
-			$hint.= "<a onclick='$(\"#addressee\").val(\"".$add2['name']."\");$(\"#addresseeid\").val(\"".$add2['id']."\");$(\"#livesearchaddressee\").css(\"visibility\", \"hidden\");''> ".$add2['name']."-(".$workerpost['department']."</a><br>";
+			$hint.= "<a onclick='$(\"#addressee\").val(\"".str_replace(array('"', "'"), '', $add2['name'])."\");$(\"#addresseeid\").val(\"".$add2['id']."\");$(\"#livesearchaddressee\").css(\"visibility\", \"hidden\");''> ".$add2['name']."-(".$workerpost['department']."</a><br>";
 		}
 	}
 

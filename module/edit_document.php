@@ -200,7 +200,8 @@ if(@$_GET['documentid']!=''){
 		echo '<button type="button" class="btn btn-large btn-warning" onclick="get_scan_form()" >სურათის დამატება</button>';
 		$hasanswer=mysql_query("select * from documents where answer_doc_id='$cid'");
 		if(mysql_num_rows($hasanswer)>0){
-			echo '<button type="button" class="btn btn-large btn-success" onclick="show_answer()" >პასუხის ნახვა</button>';
+			$ans=mysql_fetch_array($hasanswer);
+			echo '<button type="button" class="btn btn-large btn-success" onclick="show_answer(\''.$ans["id"].'\')" >პასუხის ნახვა</button>';
 		}
 		
 		echo '<br><div id="report"></div>';
@@ -262,6 +263,10 @@ function delete_document(docid){
 	$.post('module/documents/update_document.php',{dos:"delete_document",id:docid}, function(data){
 		$("#report111").html(data);
 	});
+}
+
+function show_answer(id){
+	window.open("?cat=edit_document&documentid="+id);
 }
 </script>
 		<?php
