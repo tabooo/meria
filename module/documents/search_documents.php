@@ -238,7 +238,17 @@ if(@$_POST['dos']=='searchdocumentsbystr' && @$_POST['search']!=""){
 		$docs=mysql_query("select * from documents where regnumber = '$q' order by id asc limit 0,15") or die(mysql_error());
 		$hint="";
 		while($doc=mysql_fetch_array($docs)){
-				$hint.= "<a onclick='$(\"#docid\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\");$(\"#livesearchdocuments\").css(\"visibility\", \"hidden\");'> ".$doc['regnumber']." ".date('Y-m-d',$doc['date'])."</a><br>";
+			$avtori='';
+			if($doc['inner_outer']==1 || $doc['inner_outer']==3){
+				$author=mysql_fetch_array(mysql_query("select * from citizens WHERE id='".$doc['author']."'"));
+				$avtori=" ( ".$author['name'].', '.$author['address']." )";
+			}
+			if($doc['inner_outer']==2){
+				$author=mysql_fetch_array(mysql_query("select * from workers WHERE id='".$doc['author']."'"));
+				$dep=mysql_fetch_array(mysql_query("select * from departments WHERE id in (SELECT dep_id FROM posts WHERE id='".$author['post_id']."')"));
+				$avtori=" ( ".$author['name'].', '.$dep['department']." )";
+			}
+			$hint.= "<a onclick='$(\"#docid\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\");$(\"#docidtext\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber']." ".date('Y-m-d',$doc['date']).$avtori)."\");$(\"#livesearchdocuments\").css(\"visibility\", \"hidden\");'> ".$doc['regnumber']." ".date('Y-m-d',$doc['date']).$avtori."</a><br>";
 		}
 	}
 

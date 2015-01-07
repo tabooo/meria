@@ -47,7 +47,7 @@ function showresultdocs(str){
 			
 			<div id='search'></div><br>
 			<input type="hidden" size="30" id="docid">
-			<input type="text" size="30" placeholder="საძიებო" onchange="showresultdocs(this.value)" style=" float:left; width:300px">			
+			<input type="text" size="30" id="docidtext" placeholder="საძიებო" onkeyup="showresultdocs(this.value)" style=" float:left; width:300px">			
 <!--<select class="input-xxlarge" name="docid" id="docid" type="text" placeholder="საძიებო" data-provide="typeahead" data-items="10">
 	<option value="">საძიებო</option>
 	<?php
