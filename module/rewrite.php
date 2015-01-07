@@ -1,7 +1,8 @@
  <script type="text/javascript" >
 function searchdoc(){
 	var get_id = document.getElementById('docid');
-	var docid = get_id.options[get_id.selectedIndex].value;
+	//var docid = get_id.options[get_id.selectedIndex].value;
+	var docid = get_id.value;
 	
 	$.post('module/rewrite/search_document_for_rewrite.php',{dos:"searchdocs",docid:docid}, function(data){
 		$("#report").html(data);
@@ -13,7 +14,8 @@ function save_rewrite(){
 	var newnotice=$('#newnotice').val();
 	
 	var get_id = document.getElementById('docid');
-	var docid1 = get_id.options[get_id.selectedIndex].value;
+	//var docid1 = get_id.options[get_id.selectedIndex].value;
+	var docid1 = get_id.value;
 	//var docid2=$('#docid').val();;
 
 	$.post('module/rewrite/save_rewrite.php',{dos:"save_rewrite",docid1:docid1,addresseefromtag:addresseefromtag,newnotice:newnotice}, function(data){
@@ -26,6 +28,16 @@ function get_search_form(){
 	$("#search").html(data);
 	});
 }
+
+function showresultdocs(str){
+	if (str.length==0) {$("#livesearchdocuments").html('');$("#docid").val('');}
+	if(str.length>0){
+		$.post('module/documents/search_documents.php',{dos:'searchdocumentsbystr',search:str}, function(data){
+			$("#livesearchdocuments").css("visibility", "visible");
+			$("#livesearchdocuments").html(data);
+		});
+	}
+}
 </script>
 
 <div class="span8">
@@ -34,11 +46,12 @@ function get_search_form(){
 	   		
 			
 			<div id='search'></div><br>
-			
-<select class="input-xxlarge" name="docid" id="docid" type="text" placeholder="საძიებო" data-provide="typeahead" data-items="10">
+			<input type="hidden" size="30" id="docid">
+			<input type="text" size="30" placeholder="საძიებო" onchange="showresultdocs(this.value)" style=" float:left; width:300px">			
+<!--<select class="input-xxlarge" name="docid" id="docid" type="text" placeholder="საძიებო" data-provide="typeahead" data-items="10">
 	<option value="">საძიებო</option>
 	<?php
-		mysqlconnect();
+		/*mysqlconnect();
 		$docs=mysql_query("select * from documents where inner_outer='1' OR inner_outer='2'");
 		while($dokuments=mysql_fetch_array($docs)){
 			$avtori='';
@@ -52,11 +65,13 @@ function get_search_form(){
 				$avtori=" ( ".$author['name'].', '.$dep['department']." )";
 			}
 			echo '<option value="'.$dokuments['id'].'">'.$dokuments['regnumber'].' '.date('Y-m-d',$dokuments['date']).$avtori.'</option>';
-		}
-	?>  
+		}*/
+	?> --> 
 </select>
-<br>
-<input type="button"  class="btn btn-large btn-primary" id="save" name="submit" onclick="searchdoc()" data-loading-text="Loading..." value="ძებნა">
+<input type="button"  class="btn btn-primary" id="save" name="submit" onclick="searchdoc()" data-loading-text="Loading..." value="ძებნა">
+
+<br><div id="livesearchdocuments" style="position:absolute; display:block; float:left; width:250px; border:1px solid black; cursor: pointer; background-color:white; margin-top:10px; vitibility:hidden"></div>
+
 <br><div id='report'></div>
 
 </div>

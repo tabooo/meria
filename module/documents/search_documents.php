@@ -140,10 +140,10 @@ if(@$_POST['dos']=='searchfromnewdocument' && @$_POST['search']!=""){
 	if (strlen($q)>0)
 	{
 		mysqlconnect();
-		$docs=mysql_query("select * from documents where regnumber like '$q%' order by id asc limit 0,10") or die(mysql_error());
+		$docs=mysql_query("select * from documents where regnumber = '$q' order by id asc limit 0,10") or die(mysql_error());
 		$hint="";
 		while($doc=mysql_fetch_array($docs)){
-				$hint.= "<a onclick='$(\"#answer_doc_id\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\")'> ".$doc['regnumber']."</a><br>";
+				$hint.= "<a onclick='$(\"#answer_doc_id\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\");$(\"#livesearchregnumber\").css(\"visibility\", \"hidden\");'> ".$doc['regnumber']."</a><br>";
 		}
 	}
 
@@ -225,5 +225,35 @@ if(@$_POST['dos']=='searcaddresseefromdocuments' && @$_POST['search']!=""){
 
 	echo $response;
 }
-?>
 
+if(@$_POST['dos']=='searchdocumentsbystr' && @$_POST['search']!=""){
+	
+	//get the q parameter from URL
+	$q=$_POST["search"];
+
+	//lookup all links from the xml file if length of q>0
+	if (strlen($q)>0)
+	{
+		mysqlconnect();
+		$docs=mysql_query("select * from documents where regnumber = '$q' order by id asc limit 0,15") or die(mysql_error());
+		$hint="";
+		while($doc=mysql_fetch_array($docs)){
+				$hint.= "<a onclick='$(\"#docid\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\");$(\"#livesearchdocuments\").css(\"visibility\", \"hidden\");'> ".$doc['regnumber']." ".date('Y-m-d',$doc['date'])."</a><br>";
+		}
+	}
+
+	// Set output to "no suggestion" if no hint were found
+	// or to the correct values
+	if ($hint=="")
+	  {
+	  $response="ასეთი დოკუმენტი ვერ მოიძებნა";
+	  }
+	else
+	  {
+	  $response=$hint;
+	  }
+
+	//output the response
+	echo $response;
+}
+?>
