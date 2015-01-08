@@ -51,12 +51,21 @@ if(@$_POST['dos']=='searchdocs'){
 		
 		$wids=mysql_query("select * from rewrites where did='".$docid."'");
 		while($wid=mysql_fetch_array($wids)){
-			$workers=mysql_query("SELECT * FROM workers WHERE id='".$wid['addressee_id']."'") or die(mysql_error());
-			$worker=mysql_fetch_array($workers);
-			echo '<input type="text" value="'.$worker["name"].'" readonly><input type="text" value="'.$wid["notice"].'" readonly>';
-			
+			if($doc['inner_outer']==1 || $doc['inner_outer']==2){
+				$workers=mysql_query("SELECT * FROM workers WHERE id='".$wid['addressee_id']."'") or die(mysql_error());
+				$worker=mysql_fetch_array($workers);
+				echo '<input type="text" value="'.$worker["name"].'" readonly><input type="text" value="'.$wid["notice"].'" readonly>';
+				
 				echo '<input type="text" class="input-small" style="width:40px;" value="'.$wid['level'].'" readonly><br>';
-				}
+			} else if($doc['inner_outer']==3){
+				$workers=mysql_query("SELECT * FROM citizens WHERE id='".$wid['addressee_id']."'") or die(mysql_error());
+				$worker=mysql_fetch_array($workers);
+				echo '<input type="text" value="'.$worker["name"].'" readonly><input type="text" value="'.$wid["notice"].'" readonly>';
+				
+				echo '<input type="text" class="input-small" style="width:40px;" value="'.$wid['level'].'" readonly><br>';
+			}
+			
+		}
 
 		echo '<select class="input" name="newaddressee" id="newaddressee" type="text" placeholder="ადრესატი" data-provide="typeahead" data-items="4" style="float:left" onchange="selectaddresseetag()">';
 	   echo '<option value="">აირჩიეთ ადრესატი</option>';

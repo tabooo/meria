@@ -248,7 +248,7 @@ if(@$_POST['dos']=='searchdocumentsbystr' && @$_POST['search']!=""){
 				$dep=mysql_fetch_array(mysql_query("select * from departments WHERE id in (SELECT dep_id FROM posts WHERE id='".$author['post_id']."')"));
 				$avtori=" ( ".$author['name'].', '.$dep['department']." )";
 			}
-			$hint.= "<a onclick='$(\"#docid\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber'])."\");$(\"#docidtext\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber']." ".date('Y-m-d',$doc['date']).$avtori)."\");$(\"#livesearchdocuments\").css(\"visibility\", \"hidden\");'> ".$doc['regnumber']." ".date('Y-m-d',$doc['date']).$avtori."</a><br>";
+			$hint.= "<a onclick='$(\"#docid\").val(\"".str_replace(array('"', "'"), '', $doc['id'])."\");$(\"#docidtext\").val(\"".str_replace(array('"', "'"), '', $doc['regnumber']." ".date('Y-m-d',$doc['date']).$avtori)."\");$(\"#livesearchdocuments\").css(\"visibility\", \"hidden\");'> ".$doc['regnumber']." ".date('Y-m-d',$doc['date']).$avtori."</a><br>";
 		}
 	}
 
